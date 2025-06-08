@@ -55,11 +55,14 @@ export function FormPreview({ form }: FormPreviewProps) {
               <SelectValue placeholder={field.placeholder || `Select ${field.label.toLowerCase()}`} />
             </SelectTrigger>
             <SelectContent>
-              {field.options?.map((option, index) => (
-                <SelectItem key={index} value={option.toLowerCase().replace(/\s+/g, '-')}>
-                  {option}
-                </SelectItem>
-              ))}
+              {field.options?.map((option, index) => {
+                const optionStr = String(option || '');
+                return (
+                  <SelectItem key={index} value={optionStr.toLowerCase().replace(/\s+/g, '-')}>
+                    {optionStr}
+                  </SelectItem>
+                );
+              })}
             </SelectContent>
           </Select>
         );
@@ -67,15 +70,18 @@ export function FormPreview({ form }: FormPreviewProps) {
       case 'radio':
         return (
           <RadioGroup>
-            {field.options?.map((option, index) => (
-              <div key={index} className="flex items-center space-x-2">
-                <RadioGroupItem 
-                  value={option.toLowerCase().replace(/\s+/g, '-')} 
-                  id={`${fieldId}-${index}`} 
-                />
-                <Label htmlFor={`${fieldId}-${index}`}>{option}</Label>
-              </div>
-            ))}
+            {field.options?.map((option, index) => {
+              const optionStr = String(option || '');
+              return (
+                <div key={index} className="flex items-center space-x-2">
+                  <RadioGroupItem 
+                    value={optionStr.toLowerCase().replace(/\s+/g, '-')} 
+                    id={`${fieldId}-${index}`} 
+                  />
+                  <Label htmlFor={`${fieldId}-${index}`}>{optionStr}</Label>
+                </div>
+              );
+            })}
           </RadioGroup>
         );
 
@@ -83,19 +89,22 @@ export function FormPreview({ form }: FormPreviewProps) {
         if (field.options && field.options.length > 1) {
           return (
             <div className="space-y-2">
-              {field.options.map((option, index) => (
-                <div key={index} className="flex items-center space-x-2">
-                  <Checkbox id={`${fieldId}-${index}`} />
-                  <Label htmlFor={`${fieldId}-${index}`}>{option}</Label>
-                </div>
-              ))}
+              {field.options.map((option, index) => {
+                const optionStr = String(option || '');
+                return (
+                  <div key={index} className="flex items-center space-x-2">
+                    <Checkbox id={`${fieldId}-${index}`} />
+                    <Label htmlFor={`${fieldId}-${index}`}>{optionStr}</Label>
+                  </div>
+                );
+              })}
             </div>
           );
         } else {
           return (
             <div className="flex items-center space-x-2">
               <Checkbox id={fieldId} />
-              <Label htmlFor={fieldId}>{field.options?.[0] || 'I agree'}</Label>
+              <Label htmlFor={fieldId}>{String(field.options?.[0] || 'I agree')}</Label>
             </div>
           );
         }
